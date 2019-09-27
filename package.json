@@ -2,16 +2,29 @@
   "name": "expl",
   "version": "0.1.0",
   "private": true,
+  "devDependencies": {
+    "mocha": "^6.2.0"
+  },
   "dependencies": {
+    "fs-extra": "^8.1.0",
+    "ganache-cli": "^6.7.0",
+    "left-pad": "^1.3.0",
+    "pretty-ms": "^5.0.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "react-scripts": "3.1.2"
+    "react-scripts": "3.1.2",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.88.1",
+    "solc": "^0.5.11",
+    "truffle-hdwallet-provider": "^1.0.17",
+    "web3": "^1.2.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "mochaTest": "mocha"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -1,0 +1,7 @@
+p {
+    display: inline-block;
+    text-align: right;
+    padding-right: 100px;
+    font-size: 30px;
+    margin: 10px;    
+}
