@@ -1,18 +1,26 @@
 import React, { Component } from 'react';
 import './Layout.css';
+import { newGame, startGame } from '../../ethereum/serverCallMethods';
 
 class Timer extends Component {
     constructor(props) {
         super(props);
         this.state = { 
             realSeconds: 120,
-            showMins: 0,
+            showMins: 2,
             showSecs: 0
         };
     }
 
     tick = async () => {
-        if (this.state.realSeconds == 0) {
+        if (this.state.realSeconds === 0) {
+            console.log('Started');
+            
+            await newGame('7', '999');
+
+            console.log('end');
+            
+
             this.setState(state => ({
                 realSeconds: 120
             }));
@@ -48,7 +56,6 @@ class Timer extends Component {
         return (
             <div>
                 <p style={style}>Timer: {this.state.showMins}:{this.state.showSecs}</p>
-                {this.props.children}
             </div>
         );
     }
