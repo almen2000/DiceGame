@@ -1,61 +1,81 @@
 import React, { Component } from 'react';
 import './Layout.css';
 import { newGame, startGame } from '../../ethereum/serverCallMethods';
+import Loader from './Loader';
 
 class Timer extends Component {
+
+    called = false;
+
     constructor(props) {
         super(props);
-        this.state = { 
-            realSeconds: 120,
+        this.state = {
+            realSeconds: 10,
             showMins: 2,
-            showSecs: 0
+            showSecs: 0,
+            alreadyCalled: false,
         };
     }
 
     tick = async () => {
         if (this.state.realSeconds === 0) {
-            console.log('Started');
-            
+            this.called = true;
+            console.log('start');
             await newGame('7', '999');
-
             console.log('end');
-            
+            this.called = false;
 
-            this.setState(state => ({
+            this.setState(() => ({
                 realSeconds: 120
-            }));
+            }))
         } else {
             this.setState(state => ({
-                realSeconds: state.realSeconds - 1
+                realSeconds: state.realSeconds - 1,
             }));
         }
+
         let mins = Math.floor(this.state.realSeconds / 60);
         let secs = this.state.realSeconds % 60;
         this.setState(state => ({
             showMins: mins,
             showSecs: secs
         }));
-
     }
 
-    componentDidMount() {
-        this.interval = setInterval(() => this.tick(), 1000);
+    componentDidMount = async () => {
+        this.interval = setInterval(() => {
+            if (!this.called) {
+                this.tick();
+            }
+        }, 1000);
     }
 
     componentWillUnmount() {
         clearInterval(this.interval);
     }
 
-    render() {
+    render = () => {
+
         const style = {
-            color: 'blue'
+            color: 'blue',
+            display: 'inline'
         };
+
+        let secs;
+        if (this.state.showSecs < 10) {
+            secs = '0' + this.state.showSecs;
+        } else {
+            secs = this.state.showSecs;
+        }
+         
+
+        let res = this.state.realSeconds === 0 ? <p style={{display: 'inline', fontSize: '23px'}}>loading...</p> : <p style={style}>{this.state.showMins}:{secs}</p>;
 
         if (this.state.realSeconds <= 30) style.color = 'red';
 
         return (
-            <div>
-                <p style={style}>Timer: {this.state.showMins}:{this.state.showSecs}</p>
+            <div style={style} className='head'>
+                Timer: {res}
             </div>
         );
     }

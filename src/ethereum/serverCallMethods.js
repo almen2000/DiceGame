@@ -27,16 +27,13 @@ const signAndSendTransaction = async (senderPrivateKey, to, encodeABI, gas) => {
     }
 
     let signed = await web3.eth.accounts.signTransaction(transaction, pk);
-    console.log('signed is ', signed);
     let trn = await web3.eth.sendSignedTransaction(signed.rawTransaction);
-    console.log('trn is ', trn);
     return trn;
 };
 
 export const newGame = async (dice, minimumBet) => {
     if (dice < 1 || dice > 12 || isNaN(minimumBet)) return false;
     const tr = contract.methods.newGame(dice, minimumBet);
-    console.log('method is ', tr);
     const addressTo = '0xB1a6A24Ea7427f3f09CBB43Fb3b5d3d9930d304D';
 
     return await signAndSendTransaction(privatKey, addressTo, tr.encodeABI(), 300000);
@@ -45,7 +42,6 @@ export const newGame = async (dice, minimumBet) => {
 export const startGame = async (dice, minimumBet) => {
     if (dice < 1 || dice > 12 || isNaN(minimumBet)) return false;
     const tr = contract.methods.startGame(dice, minimumBet);
-    console.log('method is ', tr);
     const addressTo = '0xB1a6A24Ea7427f3f09CBB43Fb3b5d3d9930d304D';
 
     return await signAndSendTransaction(privatKey, addressTo, tr.encodeABI(), 300000);

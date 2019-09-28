@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Layout from '../components/Layout/Layout';
+// import 'semantic-ui-css/semantic.min.css';
 
 class App extends Component {
 
@@ -9,7 +10,9 @@ class App extends Component {
     return (
       <Layout>
         <div className="App">
-          <h1>Alexandr</h1>
+          <div style={{display: 'inline'}}>
+            Alexandr <p style={{display: 'inline'}}>Martirosyan</p>
+          </div>
         </div>
       </Layout>
     );
