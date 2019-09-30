@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import './Layout.css';
+import '../Layout/Layout.css';
 import { newGame, startGame } from '../../ethereum/serverCallMethods';
-import Loader from './Loader';
+import diceGame from '../../ethereum/diceGame';
 
 class Timer extends Component {
 
@@ -17,12 +17,30 @@ class Timer extends Component {
         };
     }
 
+    sleep = (ms) => {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    sendGameIdToLayout = async () => {
+        const id = Number(await diceGame.methods.gameId().call()) + 1;
+        const game = await diceGame.methods.getGameById(id.toString()).call();
+        this.props.showItems(id, game[3]);
+    }
+
     tick = async () => {
+
+        if (this.state.realSeconds % 16 === 0) {
+            await this.sendGameIdToLayout();
+        }
+
         if (this.state.realSeconds === 0) {
             this.called = true;
-            console.log('start');
-            await newGame('7', '999');
-            console.log('end');
+            const servervalue = Math.floor(Math.random() * 12 + 1).toString();
+            const minimumBet = '999';
+            console.log('Sending Transacion...');
+            await newGame(servervalue, minimumBet);
+            await this.sendGameIdToLayout();
+            console.log('Transaction Sended.');
             this.called = false;
 
             this.setState(() => ({
@@ -50,7 +68,7 @@ class Timer extends Component {
         }, 1000);
     }
 
-    componentWillUnmount() {
+    componentWillUnmount = () => {
         clearInterval(this.interval);
     }
 
