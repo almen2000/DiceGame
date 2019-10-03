@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Timer from '../Timer/Timer';
-import diceGame from '../../ethereum/diceGame';
+import diceGame from '../../ethereum/eth_modules/diceGame';
 
 class Layout extends Component {
 

@@ -3,7 +3,7 @@ pragma solidity ^0.5.11;
 contract DiceGame {
     address public manager;
     uint public gameId;
-    // bool public gameStarted;
+    bool public gameStarted;
     
     struct Player {
         bytes32 hashValue;
@@ -32,8 +32,7 @@ contract DiceGame {
         _;
     }
     
-    constructor(uint _minimumBet) public {
-        games[0].minimumBet = _minimumBet;
+    constructor() public {
         manager = msg.sender;
         gameId = 0;
     }
@@ -88,12 +87,20 @@ contract DiceGame {
         games[gameId].restBalance = games[gameId].gameBalance;
     }
     
-    function newGame(uint8 dice, uint _minimumBet) public isManager returns (bool) {
-        // require(gameStarted, "The game did not start");
+    function startGame(uint8 dice, uint _minimumBet) public isManager returns (bool) {
+        require(!gameStarted, "It is not start Game");
+        gameStarted = true;
+        games[0].minimumBet = _minimumBet;
         setServerValue(dice);
+        return true;
+    }
+    
+    function newGame(uint8 dice, uint _minimumBet) public isManager returns (bool) {
+        require(gameStarted, "The game did not start");
         setGame();
         gameId++;
         games[gameId].minimumBet = _minimumBet;
+        setServerValue(dice);
         return true;
     }
     
@@ -105,4 +112,9 @@ contract DiceGame {
             games[id].minimumBet
         );
     }
+    
+    // function getBalance() public view returns(uint) {
+    //     return address(this).balance;
+    // }
+    
 }
