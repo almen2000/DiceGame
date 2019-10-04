@@ -30,6 +30,7 @@ class Timer extends Component {
     tick = async () => {
 
         if (this.state.realSeconds % 16 === 0) {
+            console.log('new GameId');
             await this.sendGameIdToLayout();
         }
 
@@ -54,10 +55,10 @@ class Timer extends Component {
 
         let mins = Math.floor(this.state.realSeconds / 60);
         let secs = this.state.realSeconds % 60;
-        this.setState(state => ({
+        this.setState({
             showMins: mins,
             showSecs: secs
-        }));
+        });
     }
 
     componentDidMount = async () => {
