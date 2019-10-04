@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../Layout/Layout.css';
-import { newGame, startGame } from '../../ethereum/serverCallMethods';
-import diceGame from '../../ethereum/diceGame';
+import newGame from '../../ethereum/eth_modules/newGame';
+import diceGame from '../../ethereum/eth_modules/diceGame';
 
 class Timer extends Component {
 
@@ -10,7 +10,7 @@ class Timer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            realSeconds: 10,
+            realSeconds: 1000000000,
             showMins: 2,
             showSecs: 0,
             alreadyCalled: false,

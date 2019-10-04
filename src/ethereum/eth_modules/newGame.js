@@ -1,14 +1,16 @@
 import Web3, { providers } from 'web3';
-import DiceGame from '../ethereum/build/DiceGame.json';
+import DiceGame from '../build/DiceGame.json';
+import getContractAddress from './contractAddress';
 
 let provider = new providers.HttpProvider('https://rinkeby.infura.io/v3/a8bc12d19ee2426eba8ab41aedce8f10');
 
 const web3 = new Web3(provider);
 
 let privatKey = '0x0CDC9A772C15F9409B328B0119A5486D15F2312E65F28C387C4D9BEAF17AE674';
+let contractAddress = getContractAddress();
 let contract = new web3.eth.Contract(
     DiceGame.abi,
-    '0xB1a6A24Ea7427f3f09CBB43Fb3b5d3d9930d304D'
+    contractAddress
 );
 
 const signAndSendTransaction = async (senderPrivateKey, to, encodeABI, gas) => {
@@ -31,18 +33,12 @@ const signAndSendTransaction = async (senderPrivateKey, to, encodeABI, gas) => {
     return trn;
 };
 
-export const newGame = async (dice, minimumBet) => {
+const newGame = async (dice, minimumBet) => {
     if (dice < 1 || dice > 12 || isNaN(minimumBet)) return false;
     const tr = contract.methods.newGame(dice, minimumBet);
-    const addressTo = '0xB1a6A24Ea7427f3f09CBB43Fb3b5d3d9930d304D';
+    const addressTo = contractAddress;
 
     return await signAndSendTransaction(privatKey, addressTo, tr.encodeABI(), 300000);
-}
+};
 
-export const startGame = async (dice, minimumBet) => {
-    if (dice < 1 || dice > 12 || isNaN(minimumBet)) return false;
-    const tr = contract.methods.startGame(dice, minimumBet);
-    const addressTo = '0xB1a6A24Ea7427f3f09CBB43Fb3b5d3d9930d304D';
-
-    return await signAndSendTransaction(privatKey, addressTo, tr.encodeABI(), 300000);
-}
+export default newGame;
