@@ -25,10 +25,6 @@ class Layout extends Component {
     };
 
     render() {
-        const childWithProp = React.Children.map(this.props.children, (child) => {
-            return React.cloneElement(child, {gameId: this.state.gameId, minimumBet: this.state.minimumBet});
-        });
-
         const style = {
             display: 'inline'
         };
@@ -39,22 +35,20 @@ class Layout extends Component {
                 <p style={style} className="paragraph">Game ID {this.state.gameId}</p>
                 <p style={style} className="paragraph">MinimumBet {this.state.minimumBet}</p>
                 <Router>
-                    <div>
-                        <ul>
-                            <li>
-                                <Link to="/">Home</Link>
-                            </li>
-                            <li>
-                                <Link to="/users">Users</Link>
-                            </li>
-                            <li>
-                                <Link to="/contact">Contact</Link>
-                            </li>
-                        </ul>
-                        <Route exact path="/" render={() => <App  gameId={this.state.gameId} minimumBet={this.state.minimumBet}/>}/>
-                        <Route path="/users" render={() => <Users  gameId={this.state.gameId} minimumBet={this.state.minimumBet}/>}/>
-                        <Route path="/contact" render={() => <Contact  gameId={this.state.gameId} minimumBet={this.state.minimumBet}/>}/>
-                    </div>
+                    <ul>
+                        <li>
+                            <Link to="/">Home</Link>
+                        </li>
+                        <li>
+                            <Link to="/users">Users</Link>
+                        </li>
+                        <li>
+                            <Link to="/contact">Contact</Link>
+                        </li>
+                    </ul>
+                    <Route exact path="/" render={() => <App  gameId={this.state.gameId} minimumBet={this.state.minimumBet}/>}/>
+                    <Route path="/users" render={() => <Users  gameId={this.state.gameId} minimumBet={this.state.minimumBet}/>}/>
+                    <Route path="/contact" render={() => <Contact  gameId={this.state.gameId} minimumBet={this.state.minimumBet}/>}/>
                 </Router>
             </div>
         );
