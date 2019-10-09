@@ -20,6 +20,10 @@ class Layout extends Component {
     }
 
     render() {
+        const childWithProp = React.Children.map(this.props.children, (child) => {
+            return React.cloneElement(child, {gameId: this.state.gameId, minimumBet: this.state.minimumBet});
+        });
+
         const style = {
             display: 'inline'
         }
@@ -29,7 +33,7 @@ class Layout extends Component {
                 <Timer style={style} showItems={this.showGameIdAndMinimumBet}></Timer>
                 <p style={style} className="paragraph">Game ID {this.state.gameId}</p>
                 <p style={style} className="paragraph">MinimumBet {this.state.minimumBet}</p>
-                {this.props.children}
+                {childWithProp}
             </div>
         );
     }

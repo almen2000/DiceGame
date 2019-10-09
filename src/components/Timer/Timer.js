@@ -21,6 +21,12 @@ class Timer extends Component {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
+    updateGameId = async () => {
+        const id = Number(await diceGame.methods.gameId().call());
+        const game = await diceGame.methods.getGameById(id.toString()).call();
+        this.props.showItems(id, game[3]);
+    }
+
     sendGameIdToLayout = async () => {
         const id = Number(await diceGame.methods.gameId().call()) + 1;
         const game = await diceGame.methods.getGameById(id.toString()).call();
@@ -29,9 +35,9 @@ class Timer extends Component {
 
     tick = async () => {
 
-        if (this.state.realSeconds % 16 === 0) {
-            console.log('new GameId');
-            await this.sendGameIdToLayout();
+        if (this.state.realSeconds === 100) {
+            console.log('Update');
+            await this.updateGameId();
         }
 
         if (this.state.realSeconds === 0) {

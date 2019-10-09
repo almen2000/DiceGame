@@ -1,6 +1,6 @@
 const HDWalletProvider = require('truffle-hdwallet-provider');
 const Web3 = require('web3');
-const DiceGame = require('./build/DiceGame.json');
+const DiceGame = require('../build/DiceGame.json');
 const fs = require('fs');
 
 const provider = new HDWalletProvider(
@@ -19,7 +19,13 @@ const deploy = async (minimumBet) => {
      .send({ from: accounts[0] }); // remove 'gas'
 
   console.log('Contract deployed to', result.options.address);
-  fs.writeFileSync('./addresses/ManagerAddress.txt', accounts[0]);
-  fs.writeFileSync('./addresses/ContractAddress.txt', result.options.address);
+  let addressesObject = {
+    managerAddress: accounts[0],
+    contractAddress: result.options.address
+  }
+
+  fs.writeFileSync('../addresses/addresses.json', JSON.stringify(addressesObject));
+  process.exit();
 };
+
 deploy('100');

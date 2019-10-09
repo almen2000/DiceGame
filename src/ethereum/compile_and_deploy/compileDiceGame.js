@@ -2,12 +2,12 @@ const path = require('path');
 const solc = require('solc');
 const fs = require('fs-extra');
 
-const buildPath = path.resolve(__dirname, 'build');
+const buildPath = path.join(__dirname, '../build');
 console.log(buildPath);
 
 fs.removeSync(buildPath);
 
-const diceGamePath = path.resolve(__dirname, 'contracts', 'diceGame.sol');
+const diceGamePath = path.join(__dirname, '../contracts', 'diceGame.sol');
 const source = fs.readFileSync(diceGamePath, 'utf8');
 
 const input = {
