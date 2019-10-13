@@ -20,7 +20,7 @@ class Layout extends Component {
         this.setState({gameId: id, minimumBet: game[3]});
     };
 
-    showGameIdAndMinimumBet = (gameId, minimumBet) => {
+    showGame = (gameId, minimumBet) => {
         this.setState({gameId, minimumBet});
     };
 
@@ -29,27 +29,14 @@ class Layout extends Component {
             display: 'inline'
         };
 
+
+
         return (
             <div>
-                <Timer style={style} showItems={this.showGameIdAndMinimumBet}/>
+                <Timer style={style} showItems={this.showGame}/>
                 <p style={style} className="paragraph">Game ID {this.state.gameId}</p>
                 <p style={style} className="paragraph">MinimumBet {this.state.minimumBet}</p>
-                <Router>
-                    <ul>
-                        <li>
-                            <Link to="/">Home</Link>
-                        </li>
-                        <li>
-                            <Link to="/users">Users</Link>
-                        </li>
-                        <li>
-                            <Link to="/contact">Contact</Link>
-                        </li>
-                    </ul>
-                    <Route exact path="/" render={() => <App  gameId={this.state.gameId} minimumBet={this.state.minimumBet}/>}/>
-                    <Route path="/users" render={() => <Users  gameId={this.state.gameId} minimumBet={this.state.minimumBet}/>}/>
-                    <Route path="/contact" render={() => <Contact  gameId={this.state.gameId} minimumBet={this.state.minimumBet}/>}/>
-                </Router>
+                <App style={style} gameId={this.state.gameId} minimumBet={this.state.minimumBet} />
             </div>
         );
     }
