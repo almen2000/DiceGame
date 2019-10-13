@@ -19,19 +19,19 @@ class Timer extends Component {
 
     sleep = (ms) => {
         return new Promise(resolve => setTimeout(resolve, ms));
-    }
+    };
 
     updateGameId = async () => {
         const id = Number(await diceGame.methods.gameId().call());
         const game = await diceGame.methods.getGameById(id.toString()).call();
         this.props.showItems(id, game[3]);
-    }
+    };
 
     sendGameIdToLayout = async () => {
         const id = Number(await diceGame.methods.gameId().call()) + 1;
         const game = await diceGame.methods.getGameById(id.toString()).call();
         this.props.showItems(id, game[3]);
-    }
+    };
 
     tick = async () => {
 
@@ -42,12 +42,12 @@ class Timer extends Component {
 
         if (this.state.realSeconds === 0) {
             this.called = true;
-            const servervalue = Math.floor(Math.random() * 12 + 1).toString();
+            const serverValue = Math.floor(Math.random() * 12 + 1).toString();
             const minimumBet = '999';
-            console.log('Sending Transacion...');
-            await newGame(servervalue, minimumBet);
+            console.log('Sending Transaction...');
+            await newGame(serverValue, minimumBet);
             await this.sendGameIdToLayout();
-            console.log('Transaction Sended.');
+            console.log('Transaction Sent.');
             this.called = false;
 
             this.setState(() => ({
@@ -65,7 +65,7 @@ class Timer extends Component {
             showMins: mins,
             showSecs: secs
         });
-    }
+    };
 
     componentDidMount = async () => {
         this.interval = setInterval(() => {
@@ -73,11 +73,11 @@ class Timer extends Component {
                 this.tick();
             }
         }, 1000);
-    }
+    };
 
     componentWillUnmount = () => {
         clearInterval(this.interval);
-    }
+    };
 
     render = () => {
 

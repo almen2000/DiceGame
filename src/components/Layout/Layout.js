@@ -2,10 +2,6 @@ import React, {Component} from 'react';
 import Timer from '../Timer/Timer';
 import diceGame from '../../ethereum/eth_modules/diceGame';
 import App from "../../containers/App/App";
-import Users from "../../containers/Users/users";
-import Contact from "../../containers/Contact/contact";
-import {Route, Link, BrowserRouter as Router} from 'react-router-dom';
-
 
 class Layout extends Component {
 
@@ -35,7 +31,7 @@ class Layout extends Component {
             <div>
                 <Timer style={style} showItems={this.showGame}/>
                 <p style={style} className="paragraph">Game ID {this.state.gameId}</p>
-                <p style={style} className="paragraph">MinimumBet {this.state.minimumBet}</p>
+                <p style={style} className="paragraph">MinimumBet {this.state.minimumBet} Wei</p>
                 <App style={style} gameId={this.state.gameId} minimumBet={this.state.minimumBet} />
             </div>
         );

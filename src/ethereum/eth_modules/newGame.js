@@ -6,7 +6,7 @@ let provider = new providers.HttpProvider('https://rinkeby.infura.io/v3/a8bc12d1
 
 const web3 = new Web3(provider);
 
-let privatKey = '0x0CDC9A772C15F9409B328B0119A5486D15F2312E65F28C387C4D9BEAF17AE674';
+let privateKey = '0x0CDC9A772C15F9409B328B0119A5486D15F2312E65F28C387C4D9BEAF17AE674';
 let contractAddress = getContractAddress();
 let contract = new web3.eth.Contract(
     DiceGame.abi,
@@ -26,7 +26,7 @@ const signAndSendTransaction = async (senderPrivateKey, to, encodeABI, gas) => {
         to: to,
         gas: gas,
         data: encodeABI
-    }
+    };
 
     let signed = await web3.eth.accounts.signTransaction(transaction, pk);
     let trn = await web3.eth.sendSignedTransaction(signed.rawTransaction);
@@ -38,7 +38,7 @@ const newGame = async (dice, minimumBet) => {
     const tr = contract.methods.newGame(dice, minimumBet);
     const addressTo = contractAddress;
 
-    return await signAndSendTransaction(privatKey, addressTo, tr.encodeABI(), 300000);
+    return await signAndSendTransaction(privateKey, addressTo, tr.encodeABI(), 300000);
 };
 
 export default newGame;

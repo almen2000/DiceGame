@@ -1,0 +1,28 @@
+.app {
+    background-color: lightgreen;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-left: 70px;
+    margin-top: 20px;
+    border-color: palegreen;
+    border-radius: 3px;
+}
+
+.manager {
+    background-color: mediumpurple;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 20px;
+    margin-right: 10px;
+    border-color: mediumpurple;
+    border-radius: 3px;
+    float: right;
+}

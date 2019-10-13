@@ -1,0 +1,29 @@
+.bold {
+    font-weight: bold;
+
+}
+
+.form {
+    float: right;
+    margin-top: 30px;
+    padding: 20px;
+    background-color: mediumturquoise;
+    border: 1px solid cadetblue;
+    border-radius: 5px;
+}
+
+table, tr, td {
+    border: 1px solid black;
+}
+
+.center {
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 50px;
+    background-color: turquoise;
+    padding: 12px;
+}
+td {
+
+}
