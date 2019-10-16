@@ -1,29 +1,43 @@
 .bold {
     font-weight: bold;
-
 }
 
 .form {
     float: right;
-    margin-top: 30px;
     padding: 20px;
-    background-color: mediumturquoise;
-    border: 1px solid cadetblue;
+    margin-right: 10px;
+    background-color: mediumpurple;
+    /*border-color: purple;*/
+    border: 1px solid purple;
     border-radius: 5px;
 }
 
 table, tr, td {
     border: 1px solid black;
+    border-radius: 5px;
+    width: 500px;
+    height: 100px;
+    font-size: larger;
 }
 
 .center {
     text-align: center;
     margin-right: auto;
     margin-left: auto;
-    margin-top: 50px;
+    margin-top: 30px;
     background-color: turquoise;
     padding: 12px;
 }
-td {
 
+#receive {
+    background-color: #1D1D1D;
+    border-color: #1D1D1D;
+    border-width: 7px;
+    border-radius: 100px;
+    color: white;
+    float: right;
+    margin-top: 25px;
+    margin-right: 10px;
+    width: 200px;
+    height: 75px;
 }

@@ -30,55 +30,48 @@ class GetGame extends React.Component {
     // };
 
     anelGetGame = async (event) => {
-      event.preventDefault();
-      await this.getDiceGame(this.props.gameId);
-      this.setState({ sexmelEsGetGame: true })
+        event.preventDefault();
+        await this.getDiceGame(this.props.gameId);
+        this.setState({sexmelEsGetGame: true})
     };
 
-  render() {
-    console.log(this.props);
-
-    let game = (
-          <table className="center">
-            <tbody>
-            <tr>
-              <td className='bold'>Game Id</td>
-              <td className='numbers'>{this.state.currentPageId}</td>
-            </tr>
-            <tr>
-              <td className='bold'>Winning value</td>
-              <td className='numbers'>{this.state.winningValue}</td>
-            </tr>
-            <tr>
-              <td className='bold'>Minimum Bet</td>
-              <td className='numbers'>{this.state.minimumBet}</td>
-            </tr>
-            <tr>
-              <td className='bold'>Game Balance</td>
-              <td className='numbers'>{this.state.gameBalance}</td>
-            </tr>
-            <tr>
-              <td className='bold'>Rest Balance</td>
-              <td className='numbers'>{this.state.restBalance}</td>
-            </tr>
-            </tbody>
-          </table>
-    );
-
-    if (!this.state.sexmelEsGetGame) game = null;
+    render() {
 
       return (
-         <div>
-
-            <form className='form' >
-              <label > Enter Game ID!</label><br/>
+          <div>
+            <form className='form'>
+              <label> Enter Game ID!</label><br/>
               <input type="text"/>
               <button type="submit" onClick={this.anelGetGame}>Get Game</button>
             </form>
-            {game}
-         </div>
-      );
-  }
+              <table className="center">
+                <tbody>
+                <tr>
+                  <td className='bold'>Game Id</td>
+                  <td className='numbers'>{this.state.currentPageId}</td>
+                </tr>
+                <tr>
+                  <td className='bold'>Winning value</td>
+                  <td className='numbers'>{this.state.winningValue}</td>
+                </tr>
+                <tr>
+                  <td className='bold'>Minimum Bet</td>
+                  <td className='numbers'>{this.state.minimumBet}</td>
+                </tr>
+                <tr>
+                  <td className='bold'>Game Balance</td>
+                  <td className='numbers'>{this.state.gameBalance}</td>
+                </tr>
+                <tr>
+                  <td className='bold'>Rest Balance</td>
+                  <td className='numbers'>{this.state.restBalance}</td>
+                </tr>
+                </tbody>
+              </table>
+            <button id="receive">RECEIVE MONEY</button>
+          </div>
+        );
+    }
 }
 
 export default GetGame;

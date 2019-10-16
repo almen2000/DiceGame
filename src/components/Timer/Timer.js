@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../Layout/Layout.css';
+import './Timer.css';
 import newGame from '../../ethereum/eth_modules/newGame';
 import diceGame from '../../ethereum/eth_modules/diceGame';
 
