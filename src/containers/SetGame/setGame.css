@@ -1,0 +1,29 @@
+.setGame {
+    background-color: turquoise;
+    margin-top: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    width: 610px;
+    border-radius: 10px;
+    border: 1px solid lightseagreen;
+}
+
+#label {
+    padding-right: 21px;
+}
+
+#input {
+
+}
+
+#select {
+    background-color: red;
+    margin-left: 5px;
+}
+
+#button {
+    float: right;
+    margin-right: 21px;
+}
+

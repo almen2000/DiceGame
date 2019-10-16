@@ -81,8 +81,6 @@ class BetEther extends Component {
                         12
                     </label>
                     <button type="submit" style={{ margin: '30px' }}>  Bet</button>
-
-
                 </form>
             </div>
         )
