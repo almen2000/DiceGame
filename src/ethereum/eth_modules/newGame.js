@@ -1,4 +1,4 @@
-import Web3, { providers } from 'web3';
+import Web3, {providers} from 'web3';
 import DiceGame from '../build/DiceGame.json';
 import getContractAddress from './contractAddress';
 
@@ -36,9 +36,7 @@ const signAndSendTransaction = async (senderPrivateKey, to, encodeABI, gas) => {
 const newGame = async (dice, minimumBet) => {
     if (dice < 1 || dice > 12 || isNaN(minimumBet)) return false;
     const tr = contract.methods.newGame(dice, minimumBet);
-    const addressTo = contractAddress;
-
-    return await signAndSendTransaction(privateKey, addressTo, tr.encodeABI(), 300000);
+    return await signAndSendTransaction(privateKey, contractAddress, tr.encodeABI(), 300000);
 };
 
 export default newGame;
