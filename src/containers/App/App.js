@@ -14,9 +14,9 @@ const App = (props) => {
     return (
         <div>
             <Router>
-                <button className="app"><Link style={rmvUnderlines} to="/">Bet Ether</Link></button>
-                <button className="app"><Link style={rmvUnderlines} to="/users">Get Game By Id</Link></button>
-                <button className="manager"><Link style={rmvUnderlines} to="/contact">Set Game MinimumBet</Link></button>
+                <button className="app"><Link className="link" style={rmvUnderlines} to="/">Bet Ether</Link></button>
+                <button className="app"><Link className="link" style={rmvUnderlines} to="/users">Get Game By Id</Link></button>
+                <button className="manager"><Link className="link" style={rmvUnderlines} to="/contact">Set Game MinimumBet</Link></button>
                 <Route exact path="/" render={() => <BetEther gameId={props.gameId} minimumBet={props.minimumBet}/>}/>
                 <Route path="/users" render={() => <GetGame gameId={props.gameId} minimumBet={props.minimumBet}/>}/>
                 <Route path="/contact" render={() => <SetGame gameId={props.gameId} minimumBet={props.minimumBet}/>}/>

@@ -1,7 +1,8 @@
 .app {
     background-color: lightgreen;
     color: white;
-    padding: 10px 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -15,7 +16,8 @@
 .manager {
     background-color: mediumpurple;
     color: white;
-    padding: 10px 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -25,4 +27,8 @@
     border-color: mediumpurple;
     border-radius: 3px;
     float: right;
+}
+
+.link {
+    padding: 20px;
 }

@@ -10,7 +10,7 @@ class SetGame extends React.Component {
           <input type="number" id='input'/>
           <select name="ether" id='select'>
             <option value="Wei">Wei</option>
-            <option value="Gwei">Gwei</option>
+            <option value="GWei">GWei</option>
             <option value="Ether">Ether</option>
           </select>
           <button type="submit" id='button'>Set Minimum Bet</button>
