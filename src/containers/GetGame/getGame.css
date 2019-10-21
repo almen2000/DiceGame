@@ -41,3 +41,38 @@ table, tr, td {
     width: 200px;
     height: 75px;
 }
+
+#getGameInput {
+    background-color: #f0dff0;
+    border-color: #f0dff0;
+}
+
+.getGameButton {
+    background-color: #d053f0;
+    border-color: #d053f0;
+}
+
+.getGameError {
+    border-radius: 7px;
+    color: red;
+    text-align: center;
+    border: 2px solid red;
+    background-color: rgba(255, 230, 230, 0.5);
+    font-size: larger;
+    font-weight: bold;
+    padding: 30px 10px;
+    margin-left: 70px;
+    margin-right: 70px;
+}
+
+.getGameSuccess {
+    border-radius: 7px;
+    color: green;
+    text-align: center;
+    border: 2px solid green;
+    background-color: rgba(194, 240, 194, 0.5);
+    font-size: larger;
+    font-weight: bold;
+    padding: 30px 10px;
+    margin: 110px 70px;
+}

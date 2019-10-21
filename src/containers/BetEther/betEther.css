@@ -1,10 +1,60 @@
 .betEther {
-    margin: auto;
-    margin-top: 100px;
-    background-color: aquamarine;
+    margin: 100px auto auto;
+    background-color: #7fffd4;
     padding-left: 20px;
     padding-top: 30px;
     border-radius: 7px;
     max-width: 450px;
     height: 100%;
+}
+
+.betError {
+    margin: 21px auto auto;
+    padding: 30px 10px;
+    text-align: center;
+    color: red;
+    max-width: 450px;
+    height: 100%;
+    border-radius: 7px;
+    border: 2px solid red;
+    font-size: larger;
+    font-weight: bold;
+    background-color: rgba(255, 230, 230, 0.5);
+}
+
+.betSuccess {
+    margin: 21px auto auto;
+    padding: 30px 10px;
+    text-align: center;
+    color: green;
+    max-width: 480px;
+    height: 100%;
+    border-radius: 7px;
+    border: 2px solid green;
+    font-size: larger;
+    font-weight: bold;
+    background-color: rgba(194, 240, 194, 0.5);
+}
+
+.betInput {
+    background-color: #c6f0de;
+    border-color: #d2fae6;
+    border-radius: 1px;
+}
+
+.betSelector {
+    background-color: #c6f0de;
+    border: 1px solid #d2d2d2;
+    border-radius: 3px;
+    margin-left: 3px;
+}
+
+.betButton {
+    padding: 2px 12px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-left: 21px;
+    border-radius: 3px;
+    background-color: #b3b3b3;
+    border-color: #b3b3b3;
 }

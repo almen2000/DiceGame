@@ -3,7 +3,6 @@ pragma solidity ^0.5.12;
 contract DiceGame {
     address public manager;
     uint public gameId;
-    // bool public gameStarted;
     
     struct Player {
         bytes32 hashValue;
@@ -23,7 +22,7 @@ contract DiceGame {
     mapping(uint => Game) games;
     
     modifier between1and12(uint value) {
-        require(value >= 1 && value <= 12, "The number is not from 1 to 12");
+        require(value >= 2 && value <= 12, "The number is not from 1 to 12");
         _;
     }
     
@@ -42,7 +41,7 @@ contract DiceGame {
         address senderAddress = msg.sender;
         require(senderAddress != manager, "Manager cannot bet a value");
         require(games[gameId].players[senderAddress].hashValue == 0, "Player already bet number");
-        require(msg.value > games[gameId].minimumBet, "You Bet less then minimumBet");
+        require(msg.value >= games[gameId].minimumBet, "You Bet less then minimumBet");
         games[gameId].players[senderAddress].hashValue = hashValue;
         games[gameId].players[senderAddress].betValue = msg.value;
         games[gameId].playerAddresses.push(senderAddress);
@@ -63,6 +62,7 @@ contract DiceGame {
             uint money = games[_gameId].players[msg.sender].betValue * games[_gameId].gameBalance / games[_gameId].allWinnersBalance;
             msg.sender.transfer(money);
             games[_gameId].restBalance -= money;
+            games[_gameId].players[msg.sender].received = true;
             return true;
         } else {
             return false;
@@ -89,7 +89,6 @@ contract DiceGame {
     }
     
     function newGame(uint8 dice, uint _minimumBet) public isManager returns (bool) {
-        // require(gameStarted, "The game did not start");
         setServerValue(dice);
         setGame();
         gameId++;

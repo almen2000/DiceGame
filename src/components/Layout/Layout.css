@@ -1,0 +1,25 @@
+.paragraph {
+    border: 1px solid rgb(160, 255, 225);
+    border-radius: 3px;
+    background-color: rgb(127, 255, 212);
+    text-align: right;
+    color: darkred;
+    padding-left: 30px;
+    padding-right: 30px;
+    font-size: 30px;
+    margin: 10px;
+}
+
+.bl {
+    color: black;
+    padding-right: 30px;
+}
+
+.dice {
+    background-color: aquamarine;
+    border-radius: 5px;
+    width: 36px;
+    height: 36px;
+    margin-left: 10px;
+    margin-right: 10px;
+}

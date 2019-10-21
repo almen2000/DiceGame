@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import './Timer.css';
-import newGame from '../../ethereum/eth_modules/newGame';
-import diceGame from '../../ethereum/eth_modules/diceGame';
 
 class Timer extends Component {
 
@@ -10,44 +8,19 @@ class Timer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            realSeconds: 1000000000,
+            realSeconds: 120,
             showMins: 2,
             showSecs: 0,
-            alreadyCalled: false,
         };
     }
 
-    sleep = (ms) => {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    };
-
-    updateGameId = async () => {
-        const id = Number(await diceGame.methods.gameId().call());
-        const game = await diceGame.methods.getGameById(id.toString()).call();
-        this.props.showItems(id, game[3]);
-    };
-
-    sendGameIdToLayout = async () => {
-        const id = Number(await diceGame.methods.gameId().call()) + 1;
-        const game = await diceGame.methods.getGameById(id.toString()).call();
-        this.props.showItems(id, game[3]);
-    };
-
     tick = async () => {
 
-        if (this.state.realSeconds === 100) {
-            console.log('Update');
-            await this.updateGameId();
-        }
+        if (this.state.realSeconds === 100) await this.props.updateGame();
 
         if (this.state.realSeconds === 0) {
             this.called = true;
-            const serverValue = Math.floor(Math.random() * 12 + 1).toString();
-            const minimumBet = '999';
-            console.log('Sending Transaction...');
-            await newGame(serverValue, minimumBet);
-            await this.sendGameIdToLayout();
-            console.log('Transaction Sent.');
+            await this.props.setNewGame();
             this.called = false;
 
             this.setState(() => ({
