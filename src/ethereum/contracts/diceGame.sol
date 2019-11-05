@@ -42,7 +42,7 @@ contract DiceGame {
 
     // Is possible to change minimum or maximum bet
     modifier canSetMinOrMaxBet(uint _minimumBet, uint _maximumBet) {
-        require(_minimumBet <= _maximumBet, "You cannot set bet becouse maximumBet is less than minimumBet");
+        require(_minimumBet <= _maximumBet, "You cannot set bet because maximumBet is less than minimumBet");
         _;
     }
 
@@ -58,25 +58,35 @@ contract DiceGame {
     }
 
     // Transfer required money to manager if it is possible
-    function transferMoneyToServer(uint _money) isManager public {
+    function transferMoneyToServer(uint _money) isManager external {
         require(address(this).balance > mustHaveBalance, "Contract balance is not more than must have balance");
         require(_money <= address(this).balance - mustHaveBalance, "Money is more than can be transferred");
         msg.sender.transfer(_money);
     }
 
     // Transfer all balance that is possible to manager
-    function getAllRequiredMoney() isManager public {
+    function getAllRequiredMoney() isManager external {
         require(address(this).balance > mustHaveBalance, "Contract balance is not more than must have balance");
         msg.sender.transfer(address(this).balance - mustHaveBalance);
     }
 
     // Create new game
-    function newGame(uint8 dice1, uint8 dice2) public isManager between1and6(dice1, dice2) {
-        if (gameId > 4) mustHaveBalance -= game[gameId - 3].restBalance;
+    function newGame(uint8 dice1, uint8 dice2) external isManager between1and6(dice1, dice2) {
+        require(now - prevGameStartTime > 90, "Game started very fast");
+        if (!game[gameId].gameCrashed) {
+            game[gameId].dice1 = dice1;
+            game[gameId].dice2 = dice2;
+            game[gameId].restBalance = game[gameId].gameBalance;
+        }
+        gameId++;
+        game[gameId].minimumBet = nextGameMinimumBet;
+        game[gameId].maximumBet = nextGameMaximumBet;
+        if (gameId > 4) mustHaveBalance -= game[gameId - 3].restBalance * 3 / 2;
+        prevGameStartTime = now;
     }
 
     // Function set user bet value and hashed value if it possible
-    function setUserBetAndHash(bytes32 playerHash) public payable {
+    function setUserBetAndHash(bytes32 playerHash) external payable {
         address payable playerAddress = msg.sender;
         require(address(this).balance >= mustHaveBalance + msg.value * 3 / 2, "The contract does not have enough money");
         require(playerAddress != manager, "Manager cannot bet a value");
@@ -90,8 +100,26 @@ contract DiceGame {
         mustHaveBalance += msg.value * 3 / 2;
     }
 
+    // Transfer money to the player if player is winner
+    function receiveMoney(uint _gameId, string memory password) public {
+        require(_gameId >= gameId - 3, "You cannot receive money from the game which ended more than 3 game ago");
+        require(_gameId < gameId, "The game not ended");
+        require(!game[_gameId].gameCrashed, "Game was crashed and players already receive a money");
+        require(!game[_gameId].player[msg.sender].received, "Player already receive a money");
+        bytes32 playerHash = hashPlayerBet(game[_gameId].dice1, game[_gameId].dice2, password);
+        require(playerHash == game[_gameId].player[msg.sender].playerHash, "You are not winner or password is not correct");
+        uint bet = game[_gameId].player[msg.sender].betValue;
+        uint money = bet * 3 / 2;
+        msg.sender.transfer(money);
+        game[_gameId].restBalance -= bet;
+        mustHaveBalance -= money;
+        game[_gameId].player[msg.sender].received = true;
+    }
+
     // Return players money if game crashed
-    function returnPlayersMoney() private {
+    function forceReceiveMoney() external {
+        require(now - prevGameStartTime > 30 minutes, "You can force receive money only after 30 minutes of previous game");
+        require(!game[gameId].gameCrashed, "Game was crashed and players already receive a money");
         game[gameId].gameCrashed = true;
         address payable[] storage addresses = game[gameId].playerAddresses;
         uint length = addresses.length;
@@ -99,10 +127,11 @@ contract DiceGame {
             addresses[_i].transfer(game[gameId].player[addresses[_i]].betValue);
             game[gameId].player[addresses[_i]].received = true;
         }
+        mustHaveBalance -= game[gameId].gameBalance;
     }
 
     // Join dice1, dice2, password to one string and hash the string
-    function hashUserBet(uint8 dice1, uint8 dice2, string memory password) private pure returns (bytes32) {
+    function hashPlayerBet(uint8 dice1, uint8 dice2, string memory password) private pure returns (bytes32) {
         bytes memory _password = bytes(password);
         uint length = _password.length;
         bytes memory strToHash = new bytes(length + 2);
@@ -135,6 +164,19 @@ contract DiceGame {
     // Contract need to transfer him money
     function needTransferMoney() external view isManager returns (bool) {
         return address(this).balance - mustHaveBalance < game[gameId].maximumBet * 3 / 2;
+    }
+
+    // Returns game parameters by ID
+    function getGameById(uint id) external view returns (uint, uint, uint, uint, uint, uint, bool) {
+        return (
+        game[id].dice1,
+        game[id].dice2,
+        game[id].minimumBet,
+        game[id].maximumBet,
+        game[id].gameBalance,
+        game[id].restBalance,
+        game[id].gameCrashed
+        );
     }
 
     // Function for sending Ether to a contract
