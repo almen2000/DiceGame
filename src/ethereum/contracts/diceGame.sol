@@ -47,7 +47,7 @@ contract DiceGame {
     }
 
     // Game constructor
-    constructor(uint _minimumBet, uint _maximumBet) public {
+    constructor(uint _minimumBet, uint _maximumBet) public canSetMinOrMaxBet(_minimumBet, _maximumBet) {
         gameId = 1;
         manager = msg.sender;
         game[gameId].minimumBet = _minimumBet;
@@ -81,7 +81,7 @@ contract DiceGame {
         gameId++;
         game[gameId].minimumBet = nextGameMinimumBet;
         game[gameId].maximumBet = nextGameMaximumBet;
-        if (gameId > 4) mustHaveBalance -= game[gameId - 3].restBalance * 3 / 2;
+        if (gameId > 4) mustHaveBalance -= game[gameId - 4].restBalance * 3 / 2;
         prevGameStartTime = now;
     }
 
@@ -102,7 +102,7 @@ contract DiceGame {
 
     // Transfer money to the player if player is winner
     function receiveMoney(uint _gameId, string memory password) public {
-        require(_gameId >= gameId - 3, "You cannot receive money from the game which ended more than 3 game ago");
+        if (gameId > 3) require(_gameId >= gameId - 3, "You cannot receive money from the game which ended more than 3 game ago");
         require(_gameId < gameId, "The game not ended");
         require(!game[_gameId].gameCrashed, "Game was crashed and players already receive a money");
         require(!game[_gameId].player[msg.sender].received, "Player already receive a money");
@@ -168,6 +168,8 @@ contract DiceGame {
 
     // Returns game parameters by ID
     function getGameById(uint id) external view returns (uint, uint, uint, uint, uint, uint, bool) {
+        require(id >= 1, "Game id cannot be 0");
+        require(id <= gameId, "Game not started");
         return (
         game[id].dice1,
         game[id].dice2,
