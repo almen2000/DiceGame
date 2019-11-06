@@ -171,13 +171,13 @@ contract DiceGame {
         require(id >= 1, "Game id cannot be 0");
         require(id <= gameId, "Game not started");
         return (
-        game[id].dice1,
-        game[id].dice2,
-        game[id].minimumBet,
-        game[id].maximumBet,
-        game[id].gameBalance,
-        game[id].restBalance,
-        game[id].gameCrashed
+            game[id].dice1,
+            game[id].dice2,
+            game[id].minimumBet,
+            game[id].maximumBet,
+            game[id].gameBalance,
+            game[id].restBalance,
+            game[id].gameCrashed
         );
     }
 
