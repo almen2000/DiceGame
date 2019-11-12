@@ -8,42 +8,40 @@ import './Layout.css';
 
 class Layout extends Component {
 
-    nextGameMinimumBet = '700';
     dice1;
     dice2;
 
     state = {
         gameId: undefined,
         minimumBet: '',
-        prevGameWinningValue: '',
+        maximumBet: '',
         prevGameDice1: undefined,
         prevGameDice2: undefined,
+        gameWasCrashed: '',
     };
 
     componentDidMount = async () => {
         const id = await diceGame.methods.gameId().call();
         const game = await diceGame.methods.getGameById(id.toString()).call();
         const prevGame = await diceGame.methods.getGameById((id - 1).toString()).call();
-        this.nextGameMinimumBet = game[3];
-        this.setState({gameId: id, minimumBet: game[3], prevGameWinningValue: prevGame[0]});
+        this.setState({gameId: id, minimumBet: game[2], maximumBet: game[3], prevGameDice1: prevGame[0], prevGameDice2: prevGame[1], gameWasCrashed: prevGame[6]} );
     };
 
-    showGame = (gameId, minimumBet, prevGameWinningValue, prevGameDice1, prevGameDice2) => {
+    showGame = (gameId, minimumBet, maximumBet, prevGameDice1, prevGameDice2) => {
         if (typeof prevGameDice1 === 'undefined' || typeof prevGameDice2 === 'undefined') {
-            this.setState({gameId, minimumBet});
+            this.setState({gameId, minimumBet, maximumBet});
         } else {
-            this.setState({gameId, minimumBet, prevGameWinningValue, prevGameDice1, prevGameDice2});
+            this.setState({gameId, minimumBet, maximumBet, prevGameDice1, prevGameDice2});
         }
     };
 
     setNewGame = async () => {
         this.dice1 = Math.floor(Math.random() * 6 + 1);
         this.dice2 = Math.floor(Math.random() * 6 + 1);
-        const serverValue = (this.dice1 + this.dice2).toString();
         console.log('Sending Transaction...');
-        await newGame(serverValue, this.nextGameMinimumBet);
+        await newGame(this.dice1, this.dice2);
         const id = Number(await diceGame.methods.gameId().call()) + 1;
-        this.showGame(id, this.nextGameMinimumBet, this.dice1 + this.dice2, this.dice1, this.dice2);
+        this.showGame(id, this.state.minimumBet, this.state.maximumBet, this.dice1, this.dice2);
         console.log('Transaction Sent.');
     };
 
@@ -51,47 +49,51 @@ class Layout extends Component {
         console.log('Update');
         const id = Number(await diceGame.methods.gameId().call());
         const game = await diceGame.methods.getGameById(id.toString()).call();
-        this.showGame(id, game[3]);
-    };
-
-    changeNextGameMinimumBet = (minimumBet) => {
-        this.nextGameMinimumBet = minimumBet;
+        this.showGame(id, game[2], game[3]);
     };
 
     render() {
-        const style = {
-            display: 'inline-block'
-        };
+        const style = { display: 'inline-block' };
 
-        let minimumBet = this.state.minimumBet;
-        let unit = 'Wei';
-        if (minimumBet.length > 7 && minimumBet.length < 16) {
-            minimumBet = Web3.utils.fromWei(minimumBet, 'Gwei');
-            unit = 'Gwei'
-        } else if (minimumBet.length >= 16) {
-            minimumBet = Web3.utils.fromWei(minimumBet, 'ether');
-            unit = 'Ether'
+        let minAndMaxBet = [this.state.minimumBet, this.state.maximumBet];
+        let unit = new Array(2);
+        for (let i = 0; i <= 1; i++) {
+            unit[i] = 'Wei';
+            if (minAndMaxBet[i].length > 7 && minAndMaxBet[i].length < 16) {
+                minAndMaxBet[i] = Web3.utils.fromWei(minAndMaxBet[i], 'Gwei');
+                unit[i] = 'Gwei'
+            } else if (minAndMaxBet[i].length >= 16) {
+                minAndMaxBet[i] = Web3.utils.fromWei(minAndMaxBet[i], 'ether');
+                unit[i] = 'Ether'
+            }
+            unit[i] = minAndMaxBet[i] + ' ' + unit[i];
         }
-        unit = minimumBet + ' ' + unit;
 
-        let dice = null;
+        let dice1 = null, dice2 = null;
+        let prevGame;
         if (typeof this.state.prevGameDice1 !== 'undefined' && typeof this.state.prevGameDice2 !== 'undefined') {
-            dice = (
-                <p style={style} className='layoutImage'>
-                    <img className='dice' src={require(`../../assets/dice_${this.state.prevGameDice1}.png`)} alt='Dice 1' />
-                    <img className='dice' src={require(`../../assets/dice_${this.state.prevGameDice2}.png`)} alt='Dice 2' />
-                </p>
-            );
+            if (this.state.prevGameDice1 === '0') {
+                prevGame = <p style={style} className="paragraph">Previous game was crashed </p>
+            } else {
+                dice1 = <img className='dice' src={require(`../../assets/dice_${this.state.prevGameDice1}.png`)} alt='Dice 1' />;
+                dice2 = <img className='dice' src={require(`../../assets/dice_${this.state.prevGameDice2}.png`)} alt='Dice 2' />;
+                prevGame = (
+                    <div style={style}>
+                        <p style={style} className="paragraph bl">Previous Game Dice1 {dice1}</p>
+                        <p style={style} className="paragraph bl">Previous Game Dice2 {dice2}</p>
+                    </div>
+                );
+            }
         }
 
         return (
             <div>
                 <Timer style={style} updateGame={this.updateGame} setNewGame={this.setNewGame}/>
                 <p style={style} className="paragraph">Game ID {this.state.gameId}</p>
-                <p style={style} className="paragraph">MinimumBet {unit}</p>
-                <p style={style} className="paragraph bl">Previous Game Winning Value {this.state.prevGameWinningValue}</p>
-                {dice}
-                <App style={style} state={this.state} changeMinimumBet={this.changeNextGameMinimumBet}/>
+                <p style={style} className="paragraph">MinimumBet {unit[0]}</p>
+                <p style={style} className="paragraph">MaximumBet {unit[1]}</p>
+                {prevGame}
+                <App style={style} state={this.state}/>
             </div>
         );
     }

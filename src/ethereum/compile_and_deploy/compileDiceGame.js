@@ -24,7 +24,7 @@ const input = {
       },
     },
   },
-}
+};
 
 const output = JSON.parse(solc.compile(JSON.stringify(input)));
 const contracts = output.contracts['diceGame.sol'];

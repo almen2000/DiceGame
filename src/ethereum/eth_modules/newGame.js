@@ -33,9 +33,9 @@ const signAndSendTransaction = async (senderPrivateKey, to, encodeABI, gas) => {
     return trn;
 };
 
-const newGame = async (dice, minimumBet) => {
-    if (dice < 1 || dice > 12 || isNaN(minimumBet)) return false;
-    const tr = contract.methods.newGame(dice, minimumBet);
+const newGame = async (dice1, dice2) => {
+    if (dice1 < 1 || dice1 > 6 || dice2 < 1 || dice2 > 6) return false;
+    const tr = contract.methods.newGame(dice1, dice2);
     return await signAndSendTransaction(privateKey, contractAddress, tr.encodeABI(), 300000);
 };
 

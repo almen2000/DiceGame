@@ -13,22 +13,6 @@
     border-radius: 3px;
 }
 
-.manager {
-    background-color: mediumpurple;
-    color: white;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin-top: 20px;
-    margin-right: 10px;
-    border-color: mediumpurple;
-    border-radius: 3px;
-    float: right;
-}
-
 .link {
     padding: 20px;
 }

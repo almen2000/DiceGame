@@ -21,7 +21,7 @@
     "semantic-ui-react": "^0.88.1",
     "solc": "^0.5.12",
     "truffle-hdwallet-provider": "^1.0.17",
-    "web3": "^1.2.1"
+    "web3": "^1.2.2"
   },
   "scripts": {
     "start": "react-scripts start",
