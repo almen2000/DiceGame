@@ -8,7 +8,7 @@ class Timer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            realSeconds: 10,
+            realSeconds: 10000,
             showMins: 2,
             showSecs: 0,
         };
