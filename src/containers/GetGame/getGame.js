@@ -77,13 +77,15 @@ class GetGame extends React.Component {
         const [address] = await web3.eth.getAccounts();
         try {
             if (this.state.receivedGameId != undefined) {
-                if (this.state.password != undefined) {
-                    if (this.state.receivedGameId < this.props.gameId) {
-                        await diceGame.methods.receiveMoney(this.state.receivedGameId.toString(), this.state.password).send({from: address});
-                        this.showSuccess(`You receive money from contract to address ${address}`);
-                        await this.getGame(this.state.inputNumber.toString());
-                    } else this.showError('Game not ended');
-                } else this.showError('Password is undefined');
+                if (this.state.receivedGameId < this.props.gameId && this.state.receivedGameId >= this.props.gameId - 3) {
+                    if (this.state.password != undefined) {
+                        if (this.state.receivedGameId < this.props.gameId) {
+                            await diceGame.methods.receiveMoney(this.state.receivedGameId.toString(), this.state.password).send({from: address});
+                            this.showSuccess(`You receive money from contract to address ${address}`);
+                            await this.getGame(this.state.inputNumber.toString());
+                        } else this.showError('Game not ended');
+                    } else this.showError('Password is undefined');
+                } else this.showError('You Cannot receive money from that game');
             } else this.showError('Game ID is undefined')
         } catch (err) {
             console.log(err);

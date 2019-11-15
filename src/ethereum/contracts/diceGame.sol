@@ -132,14 +132,17 @@ contract DiceGame {
 
     // Join dice1, dice2, password to one string and hash the string
     function hashPlayerBet(uint8 dice1, uint8 dice2, string memory password) private pure returns (bytes32) {
-        bytes memory _password = bytes(password);
-        uint length = _password.length;
-        bytes memory strToHash = new bytes(length + 2);
-        for (uint8 _i = 0; _i < length; _i++) strToHash[_i] = _password[_i];
-        strToHash[length] = byte(48 + dice1);
-        strToHash[length + 1] = byte(48 + dice2);
-        return keccak256(strToHash);
+//        bytes memory _password = bytes(password);
+//        uint length = _password.length;
+//        bytes memory strToHash = new bytes(length + 2);
+//        for (uint8 _i = 0; _i < length; _i++) strToHash[_i] = _password[_i];
+//        strToHash[length] = byte(48 + dice1);
+//        strToHash[length + 1] = byte(48 + dice2);
+//        return keccak256(strToHash);
+        return keccak256(abi.encode(dice1, dice2, password));
     }
+
+//    Web3.utils.keccak256(web3.eth.abi.encodeParameters(['uint8', 'uint8', 'string'], ['1', '2', 'Alexandr']))
 
     // Set next game minimum bet
     function setNextGameMinimumBet(uint _nextGameMinimumBet) external isManager canSetMinOrMaxBet(_nextGameMinimumBet, nextGameMaximumBet) {
